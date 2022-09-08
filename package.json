@@ -1,0 +1,23 @@
+{
+  "name": "polkadotjs_test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@acala-network/sdk-core": "^4.1.5",
+    "@acala-network/sdk-swap": "^4.1.5",
+    "@acala-network/type-definitions": "^4.1.5",
+    "@polkadot/api": "^9.3.3"
+  },
+  "scripts": {
+    "build": "yarn generate:defs && yarn generate:meta",
+    "generate:defs": "ts-node --skip-project node_modules/.bin/polkadot-types-from-defs --package polkadotjs_test/interfaces --input ./src/interfaces --endpoint ./curio-parachain.json",
+    "generate:meta": "ts-node --skip-project node_modules/.bin/polkadot-types-from-chain --package polkadotjs_test/interfaces --endpoint ./curio-parachain.json --output ./src/interfaces",
+    "lint": "tsc --noEmit --pretty"
+  },
+  "devDependencies": {
+    "@polkadot/typegen": "^9.3.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.2"
+  }
+}
