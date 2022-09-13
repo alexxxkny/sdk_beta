@@ -1,18 +1,17 @@
 export default {
     types: {
-        TokenSymbol: {
-            _enum: ['CGT', 'DOT', 'QTZ', 'ETH']
-        },
-        DexShare: {
-            _enum: {
-                Token: 'TokenSymbol'
-            }
-        },
-        CurrencyId: {
-            _enum: {
-                Token: 'TokenSymbol',
-                DexShare: '(DexShare, DexShare)'
-            }
+      ProvisionParameters: {
+        minContribution: '(Balance, Balance)',
+        targetProvision: '(Balance, Balance)',
+        accumulatedProvision: '(Balance, Balance)',
+        notBefore: 'BlockNumber'
+      },
+      TradingPairStatus: {
+        _enum: {
+          Disabled: 'Null',
+          Provisioning: 'ProvisionParameters',
+          Enabled: 'Null'
         }
+      }
     }
-}
+  };

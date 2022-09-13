@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",                       
+    "baseUrl": ".",                                  
+    "paths": {
+      "polkadotjs_test/*": ["src/*"],
+      "@polkadot/api": ["node_modules/@acala-network/sdk-swap/node_modules/@polkadot/api"],
+      "@polkadot/api/augment": ["src/interfaces/augment-api.ts"],
+      "@polkadot/types/augment": ["src/interfaces/augment-types.ts"],
+      "sdk-swap/*": ["src/sdk-swap/*"],
+      "sdk-core/*": ["src/sdk-core/*"],
+      "types": ["src/interfaces/types.ts"],
+      "types/*": ["src/interfaces/*"]
+    },                                      
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,                                 
+    "skipLibCheck": true
+  },
+  "ts-node": {
+    "esm": true
+  }
+}

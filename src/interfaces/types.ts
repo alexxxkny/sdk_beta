@@ -2,3 +2,6 @@
 /* eslint-disable */
 
 export * from './dex/types';
+export * from './primitives/types';
+export * from './support/types';
+export * from './runtime/types';

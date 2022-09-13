@@ -1,32 +1,25 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Enum } from '@polkadot/types-codec';
+import type { Enum, Struct } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
+import type { Balance, BlockNumber } from 'polkadotjs_test/interfaces/runtime';
 
-/** @name CurrencyId */
-export interface CurrencyId extends Enum {
-  readonly isToken: boolean;
-  readonly asToken: TokenSymbol;
-  readonly isDexShare: boolean;
-  readonly asDexShare: ITuple<[DexShare, DexShare]>;
-  readonly type: 'Token' | 'DexShare';
+/** @name ProvisionParameters */
+export interface ProvisionParameters extends Struct {
+  readonly minContribution: ITuple<[Balance, Balance]>;
+  readonly targetProvision: ITuple<[Balance, Balance]>;
+  readonly accumulatedProvision: ITuple<[Balance, Balance]>;
+  readonly notBefore: BlockNumber;
 }
 
-/** @name DexShare */
-export interface DexShare extends Enum {
-  readonly isToken: boolean;
-  readonly asToken: TokenSymbol;
-  readonly type: 'Token';
-}
-
-/** @name TokenSymbol */
-export interface TokenSymbol extends Enum {
-  readonly isCgt: boolean;
-  readonly isDot: boolean;
-  readonly isQtz: boolean;
-  readonly isEth: boolean;
-  readonly type: 'Cgt' | 'Dot' | 'Qtz' | 'Eth';
+/** @name TradingPairStatus */
+export interface TradingPairStatus extends Enum {
+  readonly isDisabled: boolean;
+  readonly isProvisioning: boolean;
+  readonly asProvisioning: ProvisionParameters;
+  readonly isEnabled: boolean;
+  readonly type: 'Disabled' | 'Provisioning' | 'Enabled';
 }
 
 export type PHANTOM_DEX = 'dex';
