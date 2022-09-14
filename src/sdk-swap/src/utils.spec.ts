@@ -1,5 +1,5 @@
 import { getSupplyAmount, getTargetAmount } from './utils';
-import { FixedPointNumber } from 'sdk-core/src';
+import { FixedPointNumber } from '../../sdk-core/src';
 
 describe('test getSupplyAmount, getTargetAmount', () => {
   const fee = {

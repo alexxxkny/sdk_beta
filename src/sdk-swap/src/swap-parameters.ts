@@ -1,4 +1,4 @@
-import { Token, FixedPointNumber, TokenBalance } from 'sdk-core/src';
+import { Token, FixedPointNumber, TokenBalance } from '../../sdk-core/src';
 
 import { SwapResult, SwapTradeMode } from './types';
 

@@ -1,4 +1,4 @@
-import { CurrencyId } from 'types';
+import { CurrencyId } from '../../interfaces';
 import { ApiPromise, ApiRx } from '@polkadot/api';
 import { AccountId } from '@polkadot/types/interfaces';
 import { Codec, Observable } from '@polkadot/types/types';

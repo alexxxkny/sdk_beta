@@ -10,7 +10,7 @@ import {
 } from './converter';
 import { sortTokenByName } from './sort-token';
 import { FixedPointNumber } from './fixed-point-number';
-import {CurrencyId, DexShare, TokenSymbol, TradingPair} from 'types';
+import {CurrencyId, DexShare, TokenSymbol, TradingPair} from '../../interfaces';
 
 interface Configs {
   // basic token informations

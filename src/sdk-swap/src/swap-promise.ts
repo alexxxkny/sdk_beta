@@ -3,8 +3,8 @@ import { memoize } from '@polkadot/util';
 import { Observable, from, of } from 'rxjs';
 import { switchMap, map, shareReplay, withLatestFrom, filter, take } from 'rxjs/operators';
 import { Balance } from '../../interfaces';
-import { eventMethodsFilter, Token, TokenPair, TokenSet } from 'sdk-core/src';
-import { FixedPointNumber } from 'sdk-core/src';
+import { eventMethodsFilter, Token, TokenPair, TokenSet } from '../../sdk-core/src';
+import { FixedPointNumber } from '../../sdk-core/src';
 import { ITuple } from '@polkadot/types/types';
 
 import { SwapParameters } from './swap-parameters';

@@ -1,4 +1,4 @@
-import { FixedPointNumber } from 'sdk-core/src';
+import { FixedPointNumber } from '../../sdk-core/src';
 import { Fee } from './types';
 
 // get how much target amount will be got fro specific supply amount and price impact

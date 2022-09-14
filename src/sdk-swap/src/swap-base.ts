@@ -2,7 +2,7 @@ import { ApiPromise, ApiRx } from '@polkadot/api';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Token, TokenPair, TokenBalance, FixedPointNumber} from 'sdk-core/src';
+import { Token, TokenPair, TokenBalance, FixedPointNumber} from '../../sdk-core/src';
 
 import { getSupplyAmount, getTargetAmount } from './utils';
 import { LiquidityPool, SwapResult, Fee, SwapTradeMode, MiddleResult } from './types';

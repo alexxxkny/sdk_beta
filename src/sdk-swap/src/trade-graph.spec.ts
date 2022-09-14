@@ -1,4 +1,4 @@
-import { Token, TokenPair } from 'sdk-core/src';
+import { Token, TokenPair } from '../../sdk-core/src';
 import { TradeGraph } from './trade-graph';
 
 describe('trade graph', () => {

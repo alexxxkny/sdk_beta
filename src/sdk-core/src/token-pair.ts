@@ -2,7 +2,7 @@ import { Token } from './token';
 import {
   CurrencyId,
   TradingPair
-} from 'types';
+} from '../../interfaces';
 import { assert } from '@polkadot/util';
 import { AnyApi } from './types';
 

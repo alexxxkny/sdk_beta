@@ -1,4 +1,4 @@
-import primitivesConfig from 'types/primitives/definitions';
+import primitivesConfig from '../../interfaces/primitives/definitions';
 import {
   getCurrencyTypeByName,
   isBasicToken,
