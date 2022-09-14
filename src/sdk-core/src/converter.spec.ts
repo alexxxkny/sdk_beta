@@ -1,4 +1,4 @@
-import { createDexShareName, createStableAssetName, getCurrencyObject, unzipDexShareName } from './converter';
+import { createDexShareName, getCurrencyObject, unzipDexShareName } from './converter';
 
 describe('converter', () => {
   test('dex share name should work', () => {
@@ -25,8 +25,6 @@ describe('converter', () => {
     const name1 = createDexShareName('KAR', 'KSM');
     const name2 = createDexShareName(name1, 'KSM');
     const name3 = createDexShareName(name1, name2);
-    const name4 = createStableAssetName(1);
-    const name5 = createDexShareName(name2, name4);
 
     expect(getCurrencyObject(name1)).toEqual({ DexShare: [{ Token: 'KAR' }, { Token: 'KSM' }] });
     expect(getCurrencyObject(name2)).toEqual({
@@ -36,15 +34,6 @@ describe('converter', () => {
       DexShare: [
         { DexShare: [{ Token: 'KAR' }, { Token: 'KSM' }] },
         { DexShare: [{ DexShare: [{ Token: 'KAR' }, { Token: 'KSM' }] }, { Token: 'KSM' }] }
-      ]
-    });
-    expect(getCurrencyObject(name4)).toEqual({ StableAssetPoolToken: 1 });
-    expect(getCurrencyObject(name5)).toEqual({
-      DexShare: [
-        {
-          DexShare: [{ DexShare: [{ Token: 'KAR' }, { Token: 'KSM' }] }, { Token: 'KSM' }]
-        },
-        { StableAssetPoolToken: 1 }
       ]
     });
   });

@@ -1,13 +1,9 @@
 import { ApiPromise, WsProvider } from '@polkadot/api';
-import { SwapPromise } from './sdk-swap/src';
+import { SwapPromise } from './sdk-swap/src/index.js';
 
 import { TokenSymbol, CurrencyId } from 'src/interfaces/types.js';
 
 import * as definitions from './interfaces/definitions.js';
-
-//import defs from '@acala-network/type-definitions/primitives';
-
-//console.log(defs);
 
 const types = Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 

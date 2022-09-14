@@ -1,7 +1,6 @@
-import { CurrencyId } from '@acala-network/types/interfaces';
+import { CurrencyId } from 'types';
 import { ApiPromise, ApiRx } from '@polkadot/api';
 import { AccountId } from '@polkadot/types/interfaces';
-import { AcalaPrimitivesCurrencyCurrencyId } from '@acala-network/types/interfaces/types-lookup';
 import { Codec, Observable } from '@polkadot/types/types';
 import { Token } from './token';
 
@@ -15,18 +14,13 @@ export type MaybeCurrency =
   | CurrencyId
   | Token
   | Codec
-  | [string, string]
-  | AcalaPrimitivesCurrencyCurrencyId;
+  | [string, string];
 
 export type MaybeAccount = string | AccountId | Codec;
 
 export enum TokenType {
   'BASIC',
-  'DEX_SHARE',
-  'ERC20',
-  'STABLE_ASSET_POOL_TOKEN',
-  'LIQUID_CROWDLOAN',
-  'FOREIGN_ASSET'
+  'DEX_SHARE'
 }
 
 /**
@@ -35,8 +29,4 @@ export enum TokenType {
  */
 export type CurrencyObject =
   | { Token: string }
-  | { DexShare: [CurrencyObject, CurrencyObject] }
-  | { Erc20: string }
-  | { StableAssetPoolToken: number }
-  | { ForeignAsset: number }
-  | { LiquidCrowdloan: number };
+  | { DexShare: [CurrencyObject, CurrencyObject] };

@@ -1,4 +1,4 @@
-import { FixedPointNumber, Token } from '@acala-network/sdk-core';
+import { FixedPointNumber, Token } from 'sdk-core/src';
 
 interface LiquidityPoolState {
   token0: Token;

@@ -1,25 +1,15 @@
-import primitivesConfig from '@acala-network/type-definitions/primitives';
+import primitivesConfig from 'types/primitives/definitions';
 import {
   getCurrencyTypeByName,
-  getForeignAssetIdFromName,
-  getLiquidCrowdloanIdFromName,
-  getStableAssetPoolIdFromName,
   isBasicToken,
   isDexShareName,
-  isForeignAssetName,
-  isLiquidCrowdloanName,
-  isStableAssetName,
   unzipDexShareName
 } from './converter';
 import { TokenType } from './types';
 
 const TOKEN_TYPE_WEIGHTS = {
   [TokenType.BASIC]: 9,
-  [TokenType.DEX_SHARE]: 8,
-  [TokenType.ERC20]: 7,
-  [TokenType.STABLE_ASSET_POOL_TOKEN]: 6,
-  [TokenType.LIQUID_CROWDLOAN]: 5,
-  [TokenType.FOREIGN_ASSET]: 4
+  [TokenType.DEX_SHARE]: 8
 };
 
 export function getTokenTypeWeight(name: string): number {
@@ -38,18 +28,6 @@ export function sortTokenByName(a: string, b: string): number {
 
   if (isBasicToken(a) && isBasicToken(b)) {
     return TOKEN_SORT[a] - TOKEN_SORT[b];
-  }
-
-  if (isStableAssetName(a) && isStableAssetName(b)) {
-    return getStableAssetPoolIdFromName(a) - getStableAssetPoolIdFromName(b);
-  }
-
-  if (isForeignAssetName(a) && isForeignAssetName(b)) {
-    return getForeignAssetIdFromName(a) - getForeignAssetIdFromName(b);
-  }
-
-  if (isLiquidCrowdloanName(a) && isLiquidCrowdloanName(b)) {
-    return getLiquidCrowdloanIdFromName(a) - getLiquidCrowdloanIdFromName(b);
   }
 
   if (isDexShareName(a) && isDexShareName(b)) {
