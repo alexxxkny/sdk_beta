@@ -1,6 +1,6 @@
 import { ApiPromise } from '@polkadot/api';
 import { memoize } from '@polkadot/util';
-import { Observable, from, of } from 'rxjs';
+import { Observable, from, of, lastValueFrom } from 'rxjs';
 import { switchMap, map, shareReplay, withLatestFrom, filter, take } from 'rxjs/operators';
 import { Balance } from '../../interfaces';
 import { eventMethodsFilter, Token, TokenPair, TokenSet } from '../../sdk-core/src';
@@ -37,10 +37,8 @@ export class SwapPromise extends SwapBase<ApiPromise> {
     );
   }
 
-  public async getEnableTradingPairs(): Promise<TokenPair[]> {
-    const result = await this.enableTradingPairs$.toPromise();
-
-    return result || [];
+  public getEnableTradingPairs(): Promise<TokenPair[]> {
+    return lastValueFrom(this.enableTradingPairs$);
   }
 
   private getLiquidityPoolsByPath = memoize((paths: Token[][]): Observable<LiquidityPool[]> => {
@@ -94,7 +92,7 @@ export class SwapPromise extends SwapBase<ApiPromise> {
     };
 
     inner();
-
+    
     this.api.query.system.events((result: Vec<EventRecord>) => {
       for (const event of result) {
         if (eventMethodsFilter(['EnableTradingPair', 'ProvisioningToEnabled', 'DisableTradingPair'])(event)) {
