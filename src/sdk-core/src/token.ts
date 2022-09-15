@@ -186,7 +186,7 @@ export class Token {
     assert(this.isDexShare, 'the currency is not a dex share');
 
     try {
-      return api.registry.createType('AcalaPrimitivesTradingPair', [
+      return api.registry.createType('TradingPair', [
         ...unzipDexShareName(this.name).map((i) => getCurrencyObject(i))
       ]);
     } catch (e) {
