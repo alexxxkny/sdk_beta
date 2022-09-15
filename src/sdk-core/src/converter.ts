@@ -4,6 +4,7 @@ import {
   ConvertToCurrencyNameFailed,
   NotDexShareName,
 } from './errors';
+import { CurrencyId } from '../..//interfaces';
 import { Token } from './token';
 import { AnyApi, CurrencyObject, MaybeCurrency, TokenType } from './types';
 
@@ -88,6 +89,10 @@ export function forceToCurrencyName(target: MaybeCurrency): string {
     if (Array.isArray(target)) return createDexShareName(target[0], target[1]);
 
     if (target instanceof Token) return target.toString();
+
+    if ((target as CurrencyId).isToken) return (target as CurrencyId).asToken.toString();
+    
+    if ((target as CurrencyId).isDexShare) return (target as CurrencyId).asDexShare.toString();
 
     return target.toString();
   } catch (e) {
