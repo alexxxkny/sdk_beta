@@ -1,4 +1,5 @@
-import { ApiPromise, WsProvider } from '@polkadot/api';
+import { ApiPromise, WsProvider, Keyring } from '@polkadot/api';
+import { KeyringPair } from '@polkadot/keyring/types';
 import { SwapPromise } from '../sdk-swap/src'; 
 
 import * as definitions from '../interfaces/definitions';
@@ -21,6 +22,17 @@ export function getApiPromise(wsEndpoint?: string): Promise<ApiPromise> {
     });
 }
 
+export function getDefaultAccountsKeyring(): KeyringPair[] {
+    const keyring = new Keyring({ type: 'sr25519'});
+
+    const alice = keyring.addFromUri('//Alice');
+    const bob = keyring.addFromUri('//Bob');
+    const eve = keyring.addFromUri('//Eve');
+    const charlie = keyring.addFromUri('//Charlie');
+
+    return [alice, bob, eve, charlie];
+}
+
 function getTypesDefinitions() {
     return Object.values(definitions).reduce((res, { types }): object => ({ ...res, ...types }), {});
 }
@@ -28,3 +40,4 @@ function getTypesDefinitions() {
 function getWsProvider(wsEndpoint: string): WsProvider {
     return new WsProvider(wsEndpoint);
 }
+
