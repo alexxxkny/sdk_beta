@@ -1,52 +1,74 @@
-import { getApiPromise, getSwapPromiseFromApi } from './common';
+import { getApiPromise, getSwapPromiseFromApi, getDefaultAccountsKeyring } from './common';
 import { FixedPointNumber, Token, TokenPair } from '../sdk-core/src';
-
-import { lastValueFrom } from 'rxjs';
-import { take } from 'rxjs/operators';
  
 async function main() {
     const api = await getApiPromise();
 
     const swapPromise = getSwapPromiseFromApi(api);
 
-    // const CGTtoken = Token.fromCurrencyName('CGT', { decimals: 18 });
-    // const DOTtoken = Token.fromCurrencyName('DOT', { decimals: 10 });
+    // let we have CGT-DOT token pair
+    const CGT = Token.fromCurrencyName('CGT', { decimals: 18} );
+    const DOT = Token.fromCurrencyName('DOT', { decimals: 10} );
 
-    // console.log(CGTtoken);
-    // console.log(DOTtoken);
+    // user selected input and output tokens
+    const inputToken = DOT;
+    const outputToken = CGT;
 
-    // const statuses = await api.query.dex.tradingPairStatuses.entries();
+    // user entered the supply amount and minimum target amount
 
-    // statuses.forEach(([key, status]) => {
-    //     console.log(key.args[0][0].asToken.toString());
-    //     console.log(key.args[0][1].toJSON());
-    //     console.log(TokenPair.fromCurrencies(key.args[0][0], key.args[0][1]));
-    //   });
+    // !!! Precision (second arg) should be equal to token decimals if the value will be used as token amount !!!
+    const inputAmount = new FixedPointNumber(100, inputToken.decimals);  
+    // 0 if not specified
+    const minOutputAmount = new FixedPointNumber(0, outputToken.decimals); 
 
-    // console.log(lastValueFrom(swapPromise.getTradingPaths(CGTtoken, DOTtoken)));
+    // calculate swap parameters
+    const swapParams = await swapPromise.swap([inputToken, outputToken], inputAmount, 'EXACT_INPUT');
 
-    //swapPromise.availableTokens.subscribe(value => console.log(value));
+    // i guess there will not be this case because we will only have enabled trading pairs
+    if (!swapParams) {
+        console.log('unable to swap');
+        return;
+    }
 
-    const tokens = await lastValueFrom(swapPromise.availableTokens.pipe(take(2)));
-    const CGT = tokens.values()[0];
-    const DOT = tokens.values()[2];
+    // Show info for the user 
+    // Especially priceImpact and output
+    console.log(`midPrice: ${swapParams?.midPrice}`);
+    console.log(`priceImpact: ${swapParams?.priceImpact}`);
+    console.log(`naturalPriceImpact: ${swapParams?.naturalPriceImpact}`);
+    console.log(`input: ${swapParams?.input.token.name} ${swapParams?.input.balance}`);
+    console.log(`output: ${swapParams?.output.token.name} ${swapParams?.output.balance}`);
+    console.log(`exchangeFee: ${swapParams?.exchangeFee}`);
+    console.log(`exchangeRate: ${swapParams?.exchangeRate}`);
 
-    console.log(CGT);
-    console.log(DOT);
+    // Example account
+    const [alice, ] = getDefaultAccountsKeyring();
 
-    const path = await lastValueFrom(swapPromise.getTradingPaths(CGT, DOT).pipe(take(1)));
+    // Chain data
+    console.log('Chain data');
+    console.log(`Input token: ${swapParams.input.token.toChainData()}`);
+    console.log(`Output token: ${swapParams.output.token.toChainData()}`);
+    console.log(`Input amount: ${swapParams.input.balance.toChainData()}`);
+    console.log(`Minimum target amount: ${minOutputAmount.toChainData()}`);
 
-    const params = await swapPromise.swap([CGT, DOT], new FixedPointNumber(100), 'EXACT_INPUT');
-
-    console.log(`midPrice: ${params?.midPrice}`);
-    console.log(`priceImpact: ${params?.priceImpact}`);
-    console.log(`naturalPriceImpact: ${params?.naturalPriceImpact}`);
-    console.log(`input: ${params?.input.token.name} ${params?.input.balance}`);
-    console.log(`output: ${params?.output.token.name} ${params?.output.balance}`);
-    console.log(`exchangeFee: ${params?.exchangeFee}`);
-    console.log(`exchangeRate: ${params?.exchangeRate}`);
-
-    //console.log(api.createType('TradingPair', [{token: "CGT"}, {token: "DOT"}]));
+    //Make a swap after user vconfirmation
+    const unsub = await api.tx.dex
+        .swapWithExactSupply(  
+            [
+                swapParams.input.token.toChainData(),
+                swapParams.output.token.toChainData()
+            ], 
+            swapParams.input.balance.toChainData(), 
+            minOutputAmount.toChainData()
+        )
+        .signAndSend(alice, (result) => {
+            console.log(`Current status is ${result.status}`);
+            if (result.status.isInBlock) {
+            console.log(`Transaction included at blockHash ${result.status.asInBlock}`);
+            } else if (result.status.isFinalized) {
+            console.log(`Transaction finalized at blockHash ${result.status.asFinalized}`);
+            unsub();
+            }
+        });
 }
 
 main();
