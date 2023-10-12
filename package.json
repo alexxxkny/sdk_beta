@@ -8,6 +8,9 @@
     "@acala-network/sdk-swap": "^4.1.5",
     "rxjs": "^7.4.0"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "build": "yarn generate:defs && yarn generate:meta",
     "generate:defs": "ts-node --skip-project node_modules/.bin/polkadot-types-from-defs --package polkadotjs_test/interfaces --input ./src/interfaces --endpoint ./curio-parachain.json",
